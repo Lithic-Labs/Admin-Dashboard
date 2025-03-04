@@ -25,22 +25,23 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(SignUpRequest $request)
+    public function create()
     {
-       list($type,$msg) = $this->userservice->storeUser(
-            name:$request('name'),
-            email:$request('email'),
-            password:$request('password'),
-       );
-       return response()->json($msg,$type);
+       
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(SignUpRequest $request)
+    {      
+        list($type,$msg) = $this->userservice->storeUser(
+            name:$request['name'],
+            email:$request['email'],
+            password:$request['password'],
+            usertype:$request['usertype'],
+       );
+       return response()->json($msg, $type);
     }
 
     /**

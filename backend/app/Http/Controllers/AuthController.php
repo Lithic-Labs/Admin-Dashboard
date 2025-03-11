@@ -7,9 +7,18 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-
+use App\Services\RoleService;
 class AuthController extends Controller
 {
+    protected RoleService $roleservice;
+    public function __construct(RoleService $roleservice)
+    {
+        $this->roleservice = $roleservice;     
+    }
+    public function role(){
+       $responseData = $this->roleservice->allRole();
+       return response()->json($responseData,200);
+    }
     // login
     public function login(SignInRequest $request){
         $validateddate = $request->validated();

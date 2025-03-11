@@ -41,7 +41,7 @@ class UserController extends Controller
             password:$request['password'],
             usertype:$request['usertype'],
        );
-       return response()->json($msg, $type);
+       return response()->json(['message'=>$msg],$type);       
     }
 
     /**

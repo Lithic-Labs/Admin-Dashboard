@@ -7,13 +7,16 @@ export const instance = axios.create({
 
 instance.interceptors.request.use(
     function (config) {
-    if (localStorage.authtoken) {
-        config.headers.Authorization = `Bearer ${localStorage.authtoken}`;
+    if (localStorage.adminportalauthtoken) {
+        config.headers.Authorization = `Bearer ${localStorage.adminportalauthtoken}`;
+
+        console.log(config);
     }      
     return config;
 }, function (error) {
     return Promise.reject(error);
 });
+
 
 
 instance.interceptors.response.use(

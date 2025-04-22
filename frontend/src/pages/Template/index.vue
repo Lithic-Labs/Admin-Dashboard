@@ -1,107 +1,141 @@
 <template>  
-    <div class="container mt-50">
-      <div class="page-inner">
-        <div
-        class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-        >
-        <div>
-          <h3 class="fw-bold mb-3">Game Template</h3>
-          <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
-        </div>
-        <div class="ms-md-auto py-2 py-md-0">
-          <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-          <a href="#" class="btn btn-primary btn-round">Add Customer</a>
-        </div>
-      </div>
+  <div class="container mt-60">
+    <div class="page-inner">
       <div class="row">
-        <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-round">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="fw-bold mb-3">Game Templates</h3>
+            </div>
             <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-icon">
-                  <div
-                  class="icon-big text-center icon-primary bubble-shadow-small"
-                  >
-                  <i class="fas fa-users"></i>
+              <form @submit.prevent="submitForm">
+                
+                <!-- Template Selection -->
+                <div class="row">
+                  <div class="col-sm-6 col-md-3" v-for="(template, index) in templates" :key="index">
+                    <div class="card card-stats card-round" 
+                         @click="selectTemplate(template)" 
+                         :class="{ 'selectcard': selectedTemplate && selectedTemplate.templateId === template.templateId }"
+                         style="cursor: pointer; border: 2px solid transparent;">
+                      <div class="card-body">
+                        <div class="col col-stats ms-3 ms-sm-0">
+                          <div class="numbers">
+                            <p class="card-category">{{ template.name }}</p>                                   
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="col col-stats ms-3 ms-sm-0">
-                <div class="numbers">
-                  <p class="card-category">Visitors</p>
-                  <h4 class="card-title">1,294</h4>
+                
+                <!-- Client Selection -->
+                <div class="row">
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Select Client</label>
+                      <select id="user" name="user" class="form-control" v-model="form.client">
+                        <option value="1">Client 1</option>        
+                        <option value="2">Client 2</option>                                          
+                      </select>
+                      <p v-if="error.client" class="text-danger">{{ error.client }}</p>
+                    </div>
+                  </div>
+                </div>                   
+                
+                <!-- Submit Button -->
+                <div class="row">
+                  <div class="col-md-6 col-lg-6">
+                    <button type="submit" class="btn" style="background-color: #21d575;color: #fff;margin-right: 10px;">
+                      Create Instance
+                    </button>
+                  </div>
                 </div>
-              </div>
+
+              </form>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <div class="card card-stats card-round">
-          <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col-icon">
-                <div
-                class="icon-big text-center icon-info bubble-shadow-small"
-                >
-                <i class="fas fa-user-check"></i>
-              </div>
-            </div>
-            <div class="col col-stats ms-3 ms-sm-0">
-              <div class="numbers">
-                <p class="card-category">Subscribers</p>
-                <h4 class="card-title">1303</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-3">
-      <div class="card card-stats card-round">
-        <div class="card-body">
-          <div class="row align-items-center">
-            <div class="col-icon">
-              <div
-              class="icon-big text-center icon-success bubble-shadow-small"
-              >
-              <i class="fas fa-luggage-cart"></i>
-            </div>
-          </div>
-          <div class="col col-stats ms-3 ms-sm-0">
-            <div class="numbers">
-              <p class="card-category">Sales</p>
-              <h4 class="card-title">$ 1,345</h4>
-            </div>
-          </div>
-        </div>
-      </div>
+      </div>  
     </div>
   </div>
-  <div class="col-sm-6 col-md-3">
-    <div class="card card-stats card-round">
-      <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-icon">
-            <div
-            class="icon-big text-center icon-secondary bubble-shadow-small"
-            >
-            <i class="far fa-check-circle"></i>
-          </div>
-        </div>
-        <div class="col col-stats ms-3 ms-sm-0">
-          <div class="numbers">
-            <p class="card-category">Order</p>
-            <h4 class="card-title">576</h4>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-  </div>
+</template>
+
+
+<script setup>
+import {onMounted, ref,reactive} from "vue";
+import axios from "axios";
+import { instance } from "@/Api";
+import 'vue3-toastify/dist/index.css';
+
+
+const templates = ref([]);
+const selectedTemplate = ref(null);
+
+const form = reactive({
+  client:'',
+  templateid:'',
   
+ 
+});
+
+const error = reactive({
+  client:'',
+  templateid:''
   
-  
-  </div>
-  </div>
-  </template>
+});
+
+
+const getTemplate = async ()=>{
+  const res = await instance.get('templates'); 
+  templates.value = res.data;  
+}
+
+const validatedForm = ()=>{
+  let isValid = true;
+
+  if (!form.client) {
+    error.client = "Client is required";
+    isValid = false;
+  } else {
+    error.client = "";
+  }
+
+  if (!form.templateid) {
+    error.templateid = "Template ID is required";
+    isValid = false;
+  } else {
+    error.templateid = "";
+  }
+  return isValid; 
+}
+
+// Select Template
+const selectTemplate = (template) => {  
+  selectedTemplate.value = template;
+  form.templateid = template.templateId;  
+};
+
+// create instance
+const submitForm = async()=>{
+  if(validatedForm()){  
+    try {
+       await instance.post("/storeInstance", form);   
+
+      // Clear form
+      form.client = "";
+      form.templateid = "";
+      selectedTemplate.value = null;
+
+    } catch (error) {
+      console.error("Error creating instance:", error);
+    }
+  }
+}
+
+onMounted(
+()=>{
+  getTemplate()
+}
+) 
+
+</script>

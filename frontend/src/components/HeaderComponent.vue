@@ -86,7 +86,7 @@
   </div>
   <span class="profile-username">
     <span class="op-7">Hi,</span>
-    <span class="fw-bold">Hizrian</span>
+    <span class="fw-bold"> {{userName}} </span>
   </span>
 </a>
 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -101,7 +101,7 @@
           />
         </div>
         <div class="u-text">
-          <h4>Hizrian</h4>
+          <h4>{{userName}}</h4>
           <p class="text-muted">hello@example.com</p>
           <a
           href="profile.html"
@@ -129,3 +129,30 @@
 </nav>
 </div>
 </template>
+<script setup>
+  import {onMounted, ref, reactive} from "vue";
+  import { useRouter } from "vue-router";
+
+  const userName = ref(''); 
+  const router = useRouter();
+
+  const getAuthDetails = () => {
+    try {
+      const storedUserName = localStorage.getItem("adminportalauthname");    
+    
+      if (storedUserName) {
+        userName.value = storedUserName;
+      } else {
+        toast.error("Authentication error. Please login again.");
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Error fetching auth data:", error);
+      toast.error("Authentication error. Please login again.");
+    }
+  };
+
+  onMounted(()=>{
+    getAuthDetails()
+  })
+</script>

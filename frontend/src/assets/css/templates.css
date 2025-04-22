@@ -1,0 +1,16 @@
+.selectcard{
+    border: 2px solid #21d575 !important;
+    background-color: #f0fdf4; 
+}
+
+/* Add this style section to your component */
+.instance-card {
+    transition: all 0.3s ease;
+  }
+  
+  .instance-card:hover {
+    background-color: #d1fae5 !important; /* Darker shade of green on hover */
+    border-color: #15803d !important;     /* Darker border on hover */
+    transform: translateY(-5px);          /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  }

@@ -8,6 +8,7 @@ import "@/assets/css/bootstrap.min.css";
 import "@/assets/css/plugins.min.css";
 import "@/assets/css/kaiadmin.min.css";
 import "@/assets/css/demo.css";
+import "@/assets/css/templates.css";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

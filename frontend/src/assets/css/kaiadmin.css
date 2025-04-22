@@ -620,10 +620,10 @@ body {
         font-size: 15px;
         color: #909093;
         display: none; }
-      .sidebar .nav .nav-section .text-section, .sidebar[data-background-color="white"] .nav .nav-section .text-section {
+      .sidebar .nav .nav-section .text-section, .sidebar[data-background-color="dark"] .nav .nav-section .text-section {
         padding: 2px 30px;
         font-size: 12px;
-        color: #727275;
+        color: #fff;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;

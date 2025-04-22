@@ -44,8 +44,8 @@
     </div>
   </template>
   
-  <script>
-  import HeaderComponent from "@/components/HeaderComponent.vue";
+<script>
+import HeaderComponent from "@/components/HeaderComponent.vue";
 import SidebarComponent from "@/components/SidebarComponent.vue";
 
   export default {

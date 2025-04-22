@@ -7,10 +7,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "google/cloud-firestore": "^1.48",
+        "kreait/firebase-php": "^7.18",
+        "kreait/laravel-firebase": "^6.0",
         "laravel/framework": "^12.0",
         "laravel/passport": "^12.4",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
+        "league/flysystem-aws-s3-v3": "^3.0",
+        "maatwebsite/excel": "^3.1",
         "spatie/laravel-permission": "^6.16"
     },
     "require-dev": {

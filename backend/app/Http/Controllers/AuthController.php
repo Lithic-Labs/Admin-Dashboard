@@ -31,19 +31,17 @@ class AuthController extends Controller
             } else {
                 $data = [
                     'data' => auth()->user(),
-                    'token' => auth()
-                        ->user()
-                        ->createToken('api-system-user')->accessToken,
-                    
+                    // 'token' => auth()->user()->createToken('api-system-user')->accessToken,
+                    'token' => auth()->user()->createToken('api-system-user')->accessToken,
+                    'roles' => auth()->user()->getRoleNames()->get(),
+                   
                 ];
 
                 return response()->json(
-                    ['data' => $data, 'message' => 'Successfully Logged In'],
-                    200
-                );
+                    ['data' => $data, 'message' => 'Successfully Logged In'],200);
             }
-        } catch (\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()], 422);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
         }
     }
 }

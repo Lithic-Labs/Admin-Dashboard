@@ -112,6 +112,8 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+
+
     ],
 
     /*
@@ -169,6 +171,7 @@ return [
             'database' => env('REDIS_CACHE_DB', '1'),
         ],
 
+       
     ],
 
 ];
